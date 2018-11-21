@@ -5,7 +5,6 @@ const express = require('express')
 describe('/user', () => {
   let app, stub, request
   beforeEach(() => {
-    stub = jest.fn()
     app = express()
     route = proxyquire('./user.js', {})
     app.use(route)
