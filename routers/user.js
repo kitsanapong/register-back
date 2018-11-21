@@ -40,8 +40,10 @@ userRouter.route('/')
 })
 
 userRouter.route('/login')
-.post((req, res, next) => {
-  res.end('Login')
+.post(passport.authenticate('local'), (req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'application/json');
+  res.json({success: true, status: 'You are successfully logged in!'});
 })
 
 userRouter.route('/logout')

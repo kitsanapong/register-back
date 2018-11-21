@@ -4,7 +4,9 @@ const morgan = require('morgan')
 const bodyPatser = require('body-parser')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const passport = require('passport')
 
+var authenticate = require('./authenticate')
 const userRouter = require('./routers/user')
 
 const HOST_NAME = 'localhost'
@@ -22,9 +24,25 @@ const app = express()
 app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyPatser.json())
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Router
 app.use('/user', userRouter)
+
+function auth (req, res, next) {
+  console.log(req.user);
+
+  if (!req.user) {
+    var err = new Error('You are not authenticated!');
+    err.status = 403;
+    next(err);
+  }
+  else {
+    next();
+  }
+}
+app.use(auth)
 
 app.use((req, res, next) => {
   res.statusCode = 200
