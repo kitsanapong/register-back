@@ -21,9 +21,25 @@ userRouter.route('/')
     req.body.password,
     (err, user) => {
       if (err) {
-        res.statusCode = 500
-        res.setHeader('Content-Type', 'application/json')
-        res.json({ err: err })
+        if (err.code === 11000) {
+          res.statusCode = 500
+          res.setHeader('Content-Type', 'application/json')
+          res.json({ err:{
+            status: 500,
+            message: 'Username is already used.',
+          }})
+        } else if(err.name === 'UserExistsError') {
+          res.statusCode = 500
+          res.setHeader('Content-Type', 'application/json')
+          res.json({ err: {
+            status: 500,
+            message: 'Email is already used.'
+          }})
+        } else {
+          res.statusCode = 500
+          res.setHeader('Content-Type', 'application/json')
+          res.json({ err: err })
+        }
       } else {
         passport.authenticate('local')(req, res, () => {
           res.status = 200
