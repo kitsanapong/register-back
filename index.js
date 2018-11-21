@@ -28,7 +28,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Router
-app.use('/user', userRouter)
+app.use('/public', userRouter)
 
 function auth (req, res, next) {
   console.log(req.user);

@@ -9,9 +9,6 @@ const userRouter = express.Router()
 userRouter.use(bodyParser.json())
 
 userRouter.route('/')
-.get((req, res, next) => {
-  res.end('Get user data')
-})
 .post((req, res, next) => {
   UserModel.register(
     new UserModel({
@@ -62,11 +59,6 @@ userRouter.route('/login')
     user_name: req.user.user_name,
     status: 'You are successfully logged in!'
   });
-})
-
-userRouter.route('/logout')
-.post((req, res, next) => {
-  res.end('Logout')
 })
 
 module.exports = userRouter
