@@ -26,14 +26,17 @@ authUserRouter.route('/')
 })
 
 authUserRouter.route('/logout')
-.post(passport.authenticate('local'), (req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json');
-  res.json({
-    success: true,
-    user_name: req.user.user_name,
-    status: 'You are successfully logged in!'
-  });
-})
+.get((req, res) => {
+  if (req.session) {
+    req.session.destroy();
+    res.clearCookie('session-id');
+    res.redirect('/login');
+  }
+  else {
+    var err = new Error('You are not logged in!');
+    err.status = 403;
+    next(err);
+  }
+});
 
 module.exports = authUserRouter
