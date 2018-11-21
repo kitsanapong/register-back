@@ -2,11 +2,20 @@ const express = require('express')
 const http = require('http')
 const morgan = require('morgan')
 const bodyPatser = require('body-parser')
+const mongoose = require('mongoose')
 
 const userRouter = require('./routers/user')
 
 const HOST_NAME = 'localhost'
 const PORT = 3001
+const DATABASE_URL = 'mongodb://localhost:27017/gamico'
+const database_connect = mongoose.connect(DATABASE_URL)
+
+database_connect.then((db) => {
+  console.log(`Connected to MongoDB: ${DATABASE_URL}`)
+}, (err) => {
+  console.log(err)
+})
 
 const app = express()
 app.use(morgan('dev'))
