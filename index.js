@@ -3,6 +3,7 @@ const http = require('http')
 const morgan = require('morgan')
 const bodyPatser = require('body-parser')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const userRouter = require('./routers/user')
 
@@ -18,6 +19,7 @@ database_connect.then((db) => {
 })
 
 const app = express()
+app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyPatser.json())
 
