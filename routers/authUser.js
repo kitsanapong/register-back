@@ -30,7 +30,11 @@ authUserRouter.route('/logout')
   if (req.session) {
     req.session.destroy();
     res.clearCookie('session-id');
-    res.redirect('/login');
+    res.status = 200
+    res.setHeader('Content-Type', 'application/json')
+    res.json({
+      status: 200,
+    })
   }
   else {
     var err = new Error('You are not logged in!');
